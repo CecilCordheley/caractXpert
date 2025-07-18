@@ -1,0 +1,7 @@
+Options +FollowSymlinks
+RewriteEngine On
+#RewriteBase /
+
+RewriteRule ^deconnexion$ index.php?root=deconnexion [L]
+RewriteRule ^firstConnexion$ index.php?root=firstConnexion [L]
+RewriteRule ^MainActivity$ index.php [L]
