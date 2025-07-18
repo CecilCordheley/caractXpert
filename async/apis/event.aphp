@@ -1,0 +1,23 @@
+import asyncEvent;
+request get{
+    $arr=asyncEvent::getAllEvent();
+    success($arr);
+}
+request getPannes{
+    $event=required_get("event");
+    $pannes=asyncEvent::getPannes($event);
+    if($pannes)
+        success($pannes);
+}
+request associate{
+    $panne=required_get("panne");
+    $event=required_get("event");
+   if(asyncEvent::associatePanne($panne,$event))
+    success("panne et event associé");
+}
+request dissociate{
+    $panne=required_get("panne");
+    $event=required_get("event");
+   if(asyncEvent::dissociatePanne($panne,$event))
+    success("panne et event associé");
+}

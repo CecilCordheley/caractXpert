@@ -1,0 +1,34 @@
+<?php
+namespace vendor\easyFrameWork\Core\Master\Controller;
+use vendor\easyFrameWork\Core\Master\Controller;
+use vendor\easyFrameWork\Core\Master\EasyFrameWork;
+use vendor\easyFrameWork\Core\Master\ResourceManager;
+use vendor\easyFrameWork\Core\Master\EasyTemplate;
+use vendor\easyFrameWork\Core\Master\SessionManager;
+use vendor\easyFrameWork\Core\Main;
+use vendor\easyFrameWork\Core\Master\EasyGlobal;
+
+class [%PageName%]Controller extends Controller{
+    public function __construct(){
+        parent::__construct();
+        $sessionManager=EasyGlobal::createSessionManager();
+       $isConnect=(($sessionManager->get("user",SessionManager::PUBLIC_CONTEXT))!=null)?"1":"0";
+        $this->setData("isConnect",$isConnect);
+        if($isConnect=="1"){
+            $user=$sessionManager->get("user",SessionManager::PUBLIC_CONTEXT);
+            $userA=(Main::fixObject($user,"SQLEntities\UtilisateurEntity"))->getArray();
+            $this->setData("user",$userA);
+        }        
+    }
+    public function handleRequest(){
+        $sessionManager=EasyGlobal::createSessionManager();
+        $config=parse_ini_file("include/config.ini",true)["localhost"];
+        $template = new EasyTemplate($config,new ResourceManager());
+
+        //ICI LE CODE
+
+        $template->setVariables($this->getData());
+        // Rendre le template
+        $template->render();
+    }
+}

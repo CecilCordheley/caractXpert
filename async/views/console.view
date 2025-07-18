@@ -1,0 +1,18 @@
+<h2>Console de dev</h2>
+<div class="row">
+    <div class="col-8">
+        <div class="result_console"></div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="console">
+            <button class="btn btn-outline-secondary" type="button" id="triggerConsole">Exec</button>
+        </div>
+    </div>
+</div>
+<script>
+    let console_result = document.querySelector(".result_console");
+    let console_input = document.getElementById("console");
+    let sysConsole = new SysConsole(console_input, console_result);
+    document.getElementById("triggerConsole").onclick = function () {
+        sysConsole.runCommand();
+    }   
+</script>

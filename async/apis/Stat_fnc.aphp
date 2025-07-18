@@ -1,0 +1,19 @@
+import StatFnc;
+request getTicketByService{
+    success(StatFnc::getTicketByService());
+}
+request getTicketByAgent{
+    success(StatFnc::getTicketByAgent());
+}
+request getTicketByState{
+    $r=StatFnc::getTicketByState();
+    success($r);
+}
+request getTicketByType{
+    $r=StatFnc::getTicketByType();
+    success($r);
+}
+request getTicketByServiceWithSat{
+    $r=StatFnc::getTicketByServiceWithSat();
+    success($r);
+}

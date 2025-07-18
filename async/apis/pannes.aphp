@@ -1,0 +1,38 @@
+import MiscFunction;
+request getAll{
+    $ids=required_get("ids");
+    $result=MiscFunction::getPannes($ids);
+    success($result);
+}
+request hasEvent{
+    $id=required_get("id");
+    $events=MiscFunction::getEvents($id);
+    success($events);
+
+
+}
+request update{
+    $id=required_get("id");
+    $diag=required_post("diag");
+    $cars=required_post("cars");
+    if(MiscFunction::updatePannes($id,$diag,$cars))
+        success("panne updated");
+}
+request createTrigger{
+    $ref=required_post("ref");
+    $name=required_post("name");
+    $content=required_post("content");
+    if(MiscFunction::createTrigger($ref,$name,$content))
+    success("Panne signaled");
+}
+request found{
+    $user=required_get("user");
+    $panne=required_get("panne");
+    $comment=required_get("comment");
+    if(MiscFunction::foundPanne($user,$panne,$comment))
+    success("Panne signaled");
+}
+request caracteristiks{
+    $result=MiscFunction::getAllCaracteristics();
+    success($result);
+}

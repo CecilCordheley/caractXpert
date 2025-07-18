@@ -1,0 +1,25 @@
+<h2>Nouvelle pannes</h2>
+<div class="row">
+    <div class="col-6">
+        <form action="#" id="addNewPanne">
+            <div class="mb-3 form-floating">
+                <input class="form-control" name="codePanne" id="codePanne" type="text" placeholder="Code de la panne">
+                <label for="codePanne">Code :</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <textarea name="diagPanne" id="diagPanne" placeholder="Ici le diagnostique"></textarea>
+                <label for="diagPanne">diagnostique :</label>
+            </div>
+            <button class="btn btn-success" id="addPanne">Valider</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("addPanne").onclick=function(){
+        addPanne((data)=>{
+            _alert("L'utilisateur a été créé");
+            getUser();
+        });
+        return false;
+    }
+</script>

@@ -1,0 +1,87 @@
+<div class="listEvent row">
+  <div class="col-6">
+    <h2>Selectionner un event</h2>
+    <ul id="eventList">
+    </ul>
+  </div>
+  <div class="col-6" id="panne_select_frm">
+    <h2>Associer une panne <span></span></h2>
+    <div class="form-floating">
+      <select id="panneSelect" class="form-control"></select>
+      <label for="panneSelect">RefPanne :</label>
+    </div>
+    <button id="associatePanne_trigger" class="btn btn-success">Associer</button>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEventModal">
+  Nouvel event
+</button>
+<div class="modal fade" id="newEventModal" tabindex="-1" aria-labelledby="newEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="newEventModalLabel">Nouvel Event</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3 form-floating">
+          <input class="form-control" name="eventRef" id="eventRef" type="text" placeholder="Ref de l'évenement">
+          <label for="eventRef">Nom :</label>
+        </div>
+        <div class="mb-3 form-floating">
+          <input class="form-control" name="eventName" id="eventName" type="text" placeholder="Nom de l'event">
+          <label for="eventName">Nom :</label>
+        </div>
+        <div class="mb-3 form-floating">
+          <textarea class="form-control" name="eventCallBack" id="eventCallBack"
+            placeholder="Ici le contenu de la fonction"></textarea>
+          <label for="panneName">content :</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="createEvent" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  
+  document.getElementById("associatePanne_trigger").addEventListener("click",function(){
+    let selectName=document.querySelector("#panne_select_frm>h2>span");
+    let sel = document.getElementById("panneSelect");
+    let panneId=sel.value;
+    let eventid=selectName.idEvent;
+    console.log(eventid,panneId);
+    associatePanneEvent(eventid,panneId,()=>{
+      _alert("panne associé à l'event selectionné");
+    },(err)=>{
+      _alert(err,2);
+    })
+  });
+  getPanne((panne) => {
+    let sel = document.getElementById("panneSelect");
+    for (var p in panne) {
+      let opt = document.createElement("option");
+      opt.value = panne[p].idPanne;
+      opt.innerText = p;
+      sel.appendChild(opt);
+    }
+  }, (err) => {
+    _alert(err, 2);
+  })
+  document.getElementById("createEvent").onclick = function () {
+    try {
+      let name = document.querySelector("[name=eventName]").value;
+      let ref = document.querySelector("[name=eventRef]").value;
+      let fnc = document.querySelector('[name=eventCallBack]').value;
+      createTrigger(ref, name, fnc, () => {
+        alert("Event créé");
+      }, (err) => {
+        _alert(err, 2);
+      });
+    } catch (err) {
+      _alert(err, 2);
+    }
+  }
+</script>

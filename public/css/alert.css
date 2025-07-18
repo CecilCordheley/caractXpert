@@ -1,0 +1,33 @@
+.alert_overlay {
+     width: 100vw;
+     height: 100%;
+     background: #3336;
+     position: fixed;
+     top: 0;
+}
+.alert_overlay>div.normal{
+ background: #FFF;
+}
+.alert_overlay>div.warning{
+background: #FF9;
+  color: #F00;
+  align-content: center;
+}
+.alert_overlay>div.information{
+background: #99F;
+  color: #FFF;
+  align-content: center;
+}
+.alert_overlay>div:not(.footer) {
+     background: #FFF;
+     padding: 5px;
+     position: relative;
+     left: 45%;
+     width: 15%;
+     aspect-ratio: 4/3;
+     top: 45%;
+     padding : 5px}
+.alert_overlay>div.footer{
+height:20px;
+display:flex;
+}

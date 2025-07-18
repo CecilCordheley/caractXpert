@@ -1,0 +1,13 @@
+{
+    "name":"CecilCordheley/MutuForum",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Cecil Cordheley",
+            "email": "ccordheley@gmail.com"
+        }
+    ],
+    "require": {
+        "composer/installers": "^1.0.20"
+    }
+}

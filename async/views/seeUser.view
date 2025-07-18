@@ -1,0 +1,18 @@
+<table class='table'>
+    <tr>
+        <th>NOM</th>
+        <th>PRENOM</th>
+        <th>MAIL</th>
+        <th>CREATION</th>
+        <th>ROLE</th>
+        <th>Action</th>
+    </tr>
+</table>
+<button id="newUser" class="btn btn-success">Nouvel utilisateur</button>
+<script>
+    document.getElementById("newUser").onclick=function(){
+        loadView("async/view_newUser",()=>{
+            console.log("nouvel utilisateur");
+        });
+    }
+</script>

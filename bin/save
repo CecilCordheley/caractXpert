@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/easyFrameWork/Core/Master/Autoloader.php';
+
+use vendor\easyFrameWork\Core\Master\Cryptographer;
+use vendor\easyFrameWork\Core\Master\EnvParser;
+use vendor\easyFrameWork\Core\Master\EasyFrameWork;
+use vendor\easyFrameWork\Core\Master\Autoloader;
+require __DIR__.'/../src/Commandes/CrypterCommande.php';
+require __DIR__.'/../src/Commandes/GenerateEntities.php';
+use Commandes\CrypterCommande;
+use Commandes\GenerateEntities;
+//EasyFrameWork::INIT();
+Autoloader::register();
+$commande = $argv[1] ?? null;
+$argument = $argv[2] ?? null;
+// Vérification de la commande et exécution
+switch ($commande) {
+    case "generateEntities":{
+        $gen=new GenerateEntities();
+       $gen->handle($argument);
+        break;
+    }
+    case 'crypt':
+        $crypter = new CrypterCommande();
+        echo $crypter($argument) . PHP_EOL;
+        break;
+    default:
+        echo "Commande inconnue" . PHP_EOL;
+        break;
+}

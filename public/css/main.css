@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Calibri;
+}
+.result_console{
+   border: var(--bs-border-width) solid var(--bs-border-color);
+    height:275px;
+    overflow:auto;
+}
+.result_console .error{
+background:#966;
+margin:3px;
+}
+.result_console .result{
+background:#696;
+margin:3px;
+}
+#wrapper {
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 'header header'
+        'menu main'
+        'footer footer';
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 20% 70% 10%;
+    gap: 10px;
+}
+#mainActivty{
+transition:.7s;
+}
+[g_area=menu] {
+    background: #33E;
+}
+ul[manage-ticket]{
+    height: 50px;
+    overflow: auto;
+}
+ul[manage-ticket]::before{
+    content:none;
+}
+[manage-ticket]::before{
+    content: ":";
+}
+ul[manage-ticket] li{
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #333;
+}
+[data-ticket=contentTicket],[data-ticket=objetTicket] {
+    border: 1px solid #555;
+    height: 1;
+    display: inline-block;
+    width: 80%;
+    padding: 5px;
+    cursor: pointer;
+    margin: 2px;
+}[data-ticket=dataTicket],[data-ticket=states] {
+    border: none;
+}
+[data-ticket=dataTicket] li,[data-ticket=states] li{
+    display: flex;
+    border: none;
+    justify-content: space-around;
+}
+[data-ticket=dataTicket] li span,[data-ticket=states] li span{
+    border: 1px solid #555;
+    height: 1;
+    display: flex;
+    width: 25%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+
+[data-ticket=contentTicket] {
+    width: 100%;
+}

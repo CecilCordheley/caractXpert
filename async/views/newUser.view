@@ -1,0 +1,38 @@
+<h2>Nouvel utilisateur</h2>
+<div class="row">
+    <div class="col-6">
+        <form action="#" id="addUserFrm">
+            <div class="mb-3 form-floating">
+                <input class="form-control" name="nomUser" id="nomUser" type="text" placeholder="Leave a comment here">
+                <label for="nomUser">Nom :</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input class="form-control" name="prenomUser" id="prenomUser" type="text" placeholder="Leave a comment here">
+                <label for="prenomUser">Prenom :</label>
+            </div>
+             <div class="mb-3 form-floating">
+                <input class="form-control" name="mailUser" id="mailUser" type="text" placeholder="Leave a comment here">
+                <label for="mailUser">mail :</label>
+            </div>
+            <div class="form-floating">
+                <select id="roleUSer" name="roleUser" class="form-control" aria-label="Floating label select example">
+                    <option value="NULL">Selectionnez un role</option>
+                    <option value="manager">Manager</option>
+                    <option value="agent">Agent</option> 
+                    <option value="dev">Développeur</option>
+                </select>
+                <label for="roleUSer">Role :</label>
+            </div>
+            <button class="btn btn-success" id="addUser">Valider</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("addUser").onclick=function(){
+        addUser((data)=>{
+            _alert("L'utilisateur a été créé");
+            getUser();
+        });
+        return false;
+    }
+</script>

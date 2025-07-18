@@ -1,0 +1,46 @@
+import MiscFunction;
+request connexion{
+    $mail=required_post("mail");
+    $mdp=required_post("secret");
+   $result= MiscFunction::connexion($mail,$mdp);
+   success($result);
+}
+request refreshPwd{
+    $user=required_get("user");
+    if(MiscFunction::ResetPwd($user))
+        success("pwd reset");
+}
+request update{
+    $uuid=required_get("uuid");
+    $nom=required_post("nomUser");
+    $prenom=required_post("prenomUser");
+    $mail=required_post("mailUser");
+    $manager=required_post("manager_id");
+    $r=MiscFunction::updateUser($uuid,$nom,$prenom,$mail,$manager);
+    if($r!=false)
+        success("user data update");
+}
+request add{
+    $nom=required_post("nomUser");
+    $prenom=required_post("prenomUser");
+    $mail=required_post("mailUser");
+    $role=required_post("roleUser");
+    $return=MiscFunction::addUser($nom,$prenom,$mail,$role);
+    if($return!=false)
+        success($return);
+}
+request generatePassWord{
+    $mdp=required_post("mdp");
+    $mail=required_post("mail");
+    $r=MiscFunction::generatePassWord($mail,$mdp);
+    success($r);
+}
+request seeUser{
+    $id=required_get("user");
+    $user=MiscFunction::getUsers($id);
+    success($user);
+}
+request getUsers{
+    $r=MiscFunction::getUsers();
+    success($r);
+}

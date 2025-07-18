@@ -1,0 +1,47 @@
+<h2>Mettre à jour <span id="uuidUser"></span></h2>
+<div class="row">
+    <div class="col-6">
+        <form action="#" id="UpdateUserFrm">
+        <input class="form-control" name="uuidUser" id="uuidUser" type="hidden" value="">
+            <div class="mb-3 form-floating">
+                <input class="form-control" name="nomUser" id="nomUser" type="text" value="">
+                <label for="nomUser">Nom :</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input class="form-control" name="prenomUser" id="prenomUser" type="text" value="">
+                <label for="prenomUser">Prenom :</label>
+            </div>
+             <div class="mb-3 form-floating">
+                <input class="form-control" name="mailUser" id="mailUser" type="text" value="">
+                <label for="mailUser">mail :</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <select id="manager" name="manager_id" class="form-control" aria-label="Select Manager">
+                </select>
+                <label for="manager">Manager :</label>
+            </div>
+            <div class="form-floating">
+                <select id="roleUSer" name="roleUser" class="form-control" aria-label="Select Role">
+                    <option value="NULL">Selectionnez un role</option>
+                    <option value="manager">Manager</option>
+                    <option value="agent">Agent</option>
+                </select>
+                <label for="roleUSer">Role :</label>
+            </div>
+            
+        </form>
+        <button class="btn btn-success" id="updateUser">Valider</button>
+    </div>
+</div>
+<script>
+    document.getElementById("updateUser").onclick=function(){
+        alert('pop');
+        updateUser((data)=>{
+            debugger;
+            _alert("L'utilisateur a été créé");
+            getUsers();
+            return false;
+        });
+        
+    }
+</script>

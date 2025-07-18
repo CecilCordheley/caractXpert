@@ -1,0 +1,30 @@
+import viewFnc;
+request getUsers{
+    $v=viewFnc::getUsers();
+    success($v);
+}
+request pannes{
+    $v=viewFnc::getPannesArray();
+    success($v);
+}
+
+request addPannes{
+    $v=viewFnc::callView("addPannes");
+    success($v);
+}
+request panneEvent{
+    $v=viewFnc::callView("panneEvent");
+    success($v);
+}
+request console{
+    $v=viewFnc::callView("console");
+    success($v);
+}
+request updateUser{
+    $v=viewFnc::callView("updateUser");
+    success($v);
+}
+request newUser{
+    $v=viewFnc::newUser();
+    success($v);
+}

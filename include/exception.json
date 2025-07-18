@@ -1,0 +1,38 @@
+{
+    "except1":{
+        "name":"restoreService",
+        "desc":"Permet de rétablir un service inactif",
+        "type":"service",
+        "exec":"restore_service"
+    },
+    "except2":{
+        "name":"purgeLicence",
+        "desc":"Permet de supprimer toutes les licences inutilisées",
+        "type":"agent",
+        "exec":"purge_licence"
+    },
+    "except3":{
+        "name":"resetStateTicket",
+        "desc":"Remet l'état d'un ticket à 'default'",
+        "type":"ticket",
+        "exec":"resetStateTicket"
+    },
+    "delegate":{
+        "name":"Delegate user",
+        "desc":"permet de déléguer du manager à un utilisateur du service",
+        "type":"agent",
+        "exec":"delegateUser",
+        "param":[
+           {
+            "name":"debut",
+            "type":"text",
+            "default":"Date.now()"
+           },
+           {
+            "name":"fin",
+            "type":"text",
+            "default":"Date.now()"
+           }
+        ]
+    }
+}
