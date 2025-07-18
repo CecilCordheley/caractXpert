@@ -1,0 +1,7 @@
+{
+    "racine":{
+        "controller":"vendor\\easyFrameWork\\Core\\Master\\Controller\\",
+        "env":".\\.env",
+        "dirAccess":"C:\\wamp\\www\\ExpertSys\\"
+    }
+}

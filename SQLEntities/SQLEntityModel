@@ -1,0 +1,41 @@
+<?php
+namespace SQLEntities;
+use vendor\easyFrameWork\Core\Master\SQLFactory;
+use SQLEntities\[%baseClass%];
+use vendor\easyFrameWork\Core\Main;
+use Exception;
+/**
+* Class personnalisée pour la table `[%className%]`.
+* Hérite de `[%baseClass%]`. Ajoutez ici vos propres méthodes.
+*/
+class [%customClass%] extends [%baseClass%]
+{
+   // Ajoutez vos méthodes ici
+
+   public static function getAll($sqlF){
+    $arr=[%baseClass%]::getAll($sqlF);
+    if($arr){
+      if(gettype($arr)=="array"){
+    return array_reduce([%baseClass%]::getAll($sqlF),function($c,$e){
+      $c[]=Main::fixObject($e,"SQLEntities\[%customClass%]");
+      return $c;
+    },[]);
+  }else
+    return $arr;
+    }else
+    return false;
+  }
+    public static function get[%baseClass%]By($sqlF,$key,$value,$filter=null){
+      $arr=[%baseClass%]::get[%baseClass%]By($sqlF,$key,$value,$filter);
+    if($arr){
+      if(gettype($arr)=="array"){
+      return array_reduce($arr,function($c,$e){
+        $c[]=Main::fixObject($e,"SQLEntities\[%customClass%]");
+        return $c;
+      },[]);
+    }else return $arr;
+    }else{
+      return false;
+    }
+      }
+ }
