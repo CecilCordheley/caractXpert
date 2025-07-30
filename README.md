@@ -1,58 +1,61 @@
-# 🪽 CaracXpert – Prototype PHP
+# CaracXpert
 
-**CaracXpert** est un outil d'itentification des pannes, il permet non seulement de les identifier, mais offre aussi une étude statistiques sur la récurences, l'émergence de celle-ci et permet aussi de déclencher certain évenements personnalisés (retour de produit, plannification d'une intervention ...)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
----
+**CaracXpert** est un système expert conçu pour améliorer la **coordination** des équipes et garantir une **gestion des rôles fluide et efficace** dans les environnements complexes (support technique, supervision, maintenance...).
 
-## 🚧 Version actuelle
-
-> ⚠️ Ce dépôt contient une version *brouillon* développée en **PHP** avec **Bootstrap**.  
-> Objectif : tester les flux, valider les idées et itérer rapidement.  
-> ⚙️ Il ne s'agit pas encore d'une version destinée à la production.
+Le projet part d’un constat simple : trop d’outils favorisent soit le contrôle autoritaire, soit l’absence de structure claire. CaracXpert apporte une réponse humaine et logique.
 
 ---
 
-## 🧠 Fonctionnalités principales
+## 🚀 Objectif
 
-- Création, Modification et Gestion des comptes utilisateur
-- Création des pannes et de leur caractèristiques 
-- Création des évenèment liés aux pannes detectées
-- Suivi d’état structuré (en base)
+Permettre à chaque acteur d’un système d’avoir une place utile et définie, sans surcharger ni bloquer.
 
----
-
-## 🔎 En réflexion
-
-- Affinage des rôles et droits (agent, manager, transverse, admin)
-- Interface plus robuste en JS (ex. manipulation DOM sur événements)
+- ✅ Coordination renforcée
+- ✅ Visibilité sur les pannes détectées
+- ✅ Droits différenciés selon le rôle
+- ✅ Historique clair et traçabilité
+- ✅ Détection et désaccords sur les pannes
+- ✅ Interface simple, modulaire et extensible
 
 ---
 
-## 📁 Structure technique
+## 🔐 Rôles et droits
 
-- Langage : PHP procédural + Bootstrap + Javascript
-- BDD : MySQL (script SQL inclus)
-- Organisation MVC légère
-- Frontend minimal (prototype orienté logique métier)
-
----
-
-## 📸 Aperçu
-
-Pas encore de démo en ligne – à venir dans une version plus aboutie.  
-> Si vous souhaitez tester ou contribuer, clonez le repo et installez-le en local.
+| Rôle      | Capacités principales |
+|-----------|------------------------|
+| **Agent**   | Identifie les pannes, peut commenter, consulter l’historique |
+| **Manager** | Crée/modifie des pannes, gère les comptes assignés |
+| **Admin**   | Gère tous les comptes et les pannes, peut exporter les données |
+| **Dev**     | Console, logs, triggers automatiques |
 
 ---
 
-## 🤝 Contribuer ou discuter
+## 📊 Modules inclus
 
-Ce projet est en cours de maturation.  
-Pour échanger ou collaborer : [LinkedIn](https://www.linkedin.com/in/s%C3%A9bastien-damart-1578a142/) ou via la section Issues.
+- Détection des pannes par les agents
+- Fiche de désaccord (disclaim) si désaccord sur un diagnostic
+- Vue des historiques personnalisés
+- Tableau de bord statistique (via Chart.js)
+- Gestion utilisateur multi-niveaux
+- Système de jetons sécurisé (TokenManager)
+
+---
+
+## 🔧 Stack technique
+
+- **Backend** : PHP 8+, EasyFramework
+- **Frontend** : HTML / JS natif + Chart.js
+- **Base de données** : MySQL
+- **JSON** : pour la gestion de sessions et de délégations
 
 ---
 
-## 📜 Licence
+## 🛠️ Installation
 
-Projet en phase de test, publié en accès libre. Licence à définir pour la version stable.
-
----
+```bash
+git clone https://github.com/CecilCordheley/caractXpert.git
+cd caractXpert
+# Configurez votre base de données, puis :
+php -S localhost:8000
