@@ -6,8 +6,10 @@ use vendor\easyFrameWork\Core\Main;
 use vendor\easyFrameWork\Core\Master\Cryptographer;
 use vendor\easyFrameWork\Core\Master\Token;
 use vendor\easyFrameWork\Core\Master\TokenManager;
-
+use SQLEntities\UsersFoundPannesEntity;
 use Exception;
+use vendor\easyFrameWork\Core\Master\EasyFrameWork;
+
 /**
 * Class personnalisée pour la table `Users`.
 * Hérite de `Users`. Ajoutez ici vos propres méthodes.
@@ -15,7 +17,19 @@ use Exception;
 class UsersEntity extends Users
 {
 
-    
+  public function getClient($sqlF){
+    return ClientEntity::getClientBy($sqlF,"client_id",$this->client);
+  }
+  public function getPanneHistory($sqlF){
+    $UFP=UsersFoundPannesEntity::getUsersFoundPannesBy($sqlF,"user",$this->idusers);
+    return array_reduce($UFP,function($car,$el)use($sqlF){
+      $p=PannesEntity::getPannesBy($sqlF,"id",$el->panne);
+      if($p!=false){
+        $car[]=["panne"=>$p->getFullArray($sqlF),"date"=>$el->date_found,"comment"=>$el->comment_pannes];
+      }
+      return $car;
+    },[]);
+  }
   public function getManager($sqlF){
     if($this->manager_id!=0){
       $manager=UsersEntity::getUsersBy($sqlF,"idusers",$this->manager_id);
@@ -55,19 +69,24 @@ class UsersEntity extends Users
      }
      $token=TokenManager::generate($user->uuidUser,$user->roleUser);
      $delegate=TokenManager::getDelegate($user->uuidUser);
+     $client=$user->getClient($sqlF);
      if($delegate==false)
       return [
         "token" => $token,
         "role" => $user->roleUser,
         "user_id" => $user->uuidUser,
+        "client"=>$client->getArray()??""
     ];
-    else
+    else{
+      
       return [
         "token" => $token,
         "delegate"=>$delegate,
         "role" => $user->roleUser,
         "user_id" => $user->uuidUser,
+        "client"=>$client->getArray()??""
     ];
+  }
   }
    public static function getAll($sqlF){
     $arr=Users::getAll($sqlF);

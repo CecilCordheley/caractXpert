@@ -7,7 +7,18 @@ request pannes{
     $v=viewFnc::getPannesArray();
     success($v);
 }
-
+request log{
+     $v=viewFnc::callView("log");
+    success($v);
+}
+request panneHistory{
+    $v=viewFnc::callView("panneHistory");
+    success($v);
+}
+request mainActivity{
+    $v=viewFnc::callView("mainActivity");
+    success($v);
+}
 request addPannes{
     $v=viewFnc::callView("addPannes");
     success($v);

@@ -58,7 +58,7 @@ async function getAllCaracteristics(success, failed) {
         failed?.(result.message);
     }
 }
-async function getPanne(success,failed){
+async function getPanne(success, failed) {
     const response = await fetch("async/pannes_getAll?ids=1");
     const result = await response.json();
     if (result.status.toLowerCase() == "success") {
@@ -173,29 +173,29 @@ async function refreshPwd(user, success, failed) {
                 failed?.call(result.message);
         })
 }
-async function hasEvent(idPanne,success,failed){
-    fetch("async/pannes_hasEvent?id="+idPanne)
-        .then(r=>{return r.json();})
-        .then(result=>{
-            if(result.status==="success"){
+async function hasEvent(idPanne, success, failed) {
+    fetch("async/pannes_hasEvent?id=" + idPanne)
+        .then(r => { return r.json(); })
+        .then(result => {
+            if (result.status === "success") {
                 success?.call(this, result.data);
-            } else{
+            } else {
                 failed?.call(result.message);
-            }   
+            }
         })
 }
-async function getTrigger(success,failed){
+async function getTrigger(success, failed) {
     fetch("async/event_get")
-    .then(r=>{return r.json()})
-    .then(result=>{
-        if(result.status=="success"){
-            success.call(this, result.data);
-        }else{
-            failed.call(result.message);
-        }
-    })
+        .then(r => { return r.json() })
+        .then(result => {
+            if (result.status == "success") {
+                success.call(this, result.data);
+            } else {
+                failed.call(result.message);
+            }
+        })
 }
-async function createTrigger(ref,name,content,success,failed){
+async function createTrigger(ref, name, content, success, failed) {
     let token = JSON.parse(localStorage.getItem("user")).token;
     const options = {
         method: "POST",
@@ -206,7 +206,7 @@ async function createTrigger(ref,name,content,success,failed){
         body: JSON.stringify({
             "ref": ref,
             "name": name,
-            "content":content
+            "content": content
         })
     };
     const response = await fetch(`async/pannes_createTrigger`, options);
@@ -217,47 +217,83 @@ async function createTrigger(ref,name,content,success,failed){
         failed.call(this, result.message);
     }
 }
-async function panneEvent(){
-    loadView("async/view_panneEvent",()=>{
-    let panne_select_frm=document.getElementById("panne_select_frm");
-  panne_select_frm.style.display="none";
-        getTrigger((events) => {
-    let lst = document.getElementById("eventList");
-    lst.innerHTML="";
-    events.forEach(element => {
-      console.dir(element);
-      let listItem = document.createElement("li");
-      listItem.innerText = element.event_name;
-      listItem.idEvent = element.idEvent;
-      getPanneByEvent(element.idEvent,(pannes)=>{
-
-        let lstPanne=document.createElement("ul");
-        pannes.forEach(p=>{
-          let listItemPanne=document.createElement("li");
-          listItemPanne.innerText=p.code;
-          let delBtn=document.createElement("button");
-          delBtn.innerText="X";
-          delBtn.onclick=()=>{
-            _alert(`désassocier la panne ${p.id} de l'event ${element.idEvent} ?`);
-          }
-          listItemPanne.appendChild(delBtn);
-          lstPanne.appendChild(listItemPanne);
+async function getCategory(succes, failed) {
+    fetch("async/pannes_getAllCategorie")
+        .then(r => { return r.json() })
+        .then(result => {
+            if (result.status == "success") {
+                succes?.call(this, result.data);
+            } else {
+                failed?.call(this, result.message);
+            }
         })
-        listItem.appendChild(lstPanne);
-      },(err)=>{
-        console.error(err);
-      })
-      listItem.onclick = function () {
-        panne_select_frm.style.display="block";
-        let selectName=document.querySelector("#panne_select_frm>h2>span");
-        selectName.idEvent=element.idEvent;
-        selectName.innerText=element.event_name;
-      }
-      lst.appendChild(listItem);
-    });
-  }, (err) => {
-    _alert(err, 1);
-  })
+        .catch(err => {
+            failed?.call(this, err);
+        })
+}
+async function getStat(stat, success, failed) {
+    let statFnc = {
+        "countByPanne": function (success,failed) {
+            fetch("async/stat_countByPanne")
+                .then(r => { return r.json() })
+                .then(result => {
+                    if (result.status == "success") {
+                        success?.call(this, result.data);
+                    } else {
+                        failed?.call(this, result.message);
+                    }
+                })
+                .catch(err => {
+                    failed?.call(this, err);
+                });
+        }
+
+    }
+    if (statFnc[stat] != undefined) {
+        statFnc[stat](success,failed);
+    }
+}
+async function panneEvent() {
+    loadView("async/view_panneEvent", () => {
+        let panne_select_frm = document.getElementById("panne_select_frm");
+        panne_select_frm.style.display = "none";
+        getTrigger((events) => {
+            let lst = document.getElementById("eventList");
+            lst.innerHTML = "";
+            events.forEach(element => {
+                console.dir(element);
+                let listItem = document.createElement("li");
+                listItem.innerText = element.event_name;
+                listItem.idEvent = element.idEvent;
+                getPanneByEvent(element.idEvent, (pannes) => {
+
+                    let lstPanne = document.createElement("ul");
+                    pannes.forEach(p => {
+                        let listItemPanne = document.createElement("li");
+                        listItemPanne.innerText = p.code;
+                        let delBtn = document.createElement("button");
+                        delBtn.innerText = "X";
+                        delBtn.onclick = () => {
+                            _alert(`désassocier la panne ${p.id} de l'event ${element.idEvent} ?`);
+                        }
+                        listItemPanne.appendChild(delBtn);
+                        lstPanne.appendChild(listItemPanne);
+                    })
+                    listItem.appendChild(lstPanne);
+                }, (err) => {
+                    console.error(err);
+                })
+                listItem.onclick = function () {
+                    panne_select_frm.style.display = "block";
+                    let selectName = document.querySelector("#panne_select_frm>h2>span");
+                    selectName.idEvent = element.idEvent;
+                    selectName.innerText = element.event_name;
+                }
+                lst.appendChild(listItem);
+            });
+        }, (err) => {
+            _alert(err, 1);
+        })
     });
 }
 async function seeUser(user) {
@@ -374,6 +410,15 @@ async function getUsers() {
         console.error(err);
     })
 }
+async function getLog(success, failed) {
+    const response = await fetch("async/log_getAll");
+    const result = await response.json();
+    if (result.status == "success") {
+        success?.call(this, result.data);
+    } else {
+        failed?.call(this, result.message);
+    }
+}
 async function updatePannes(id, newCar, newDiag, success, failed) {
     const options = {
         method: "POST",
@@ -406,33 +451,35 @@ async function connexion(mail, mdp, success, failed) {
     };
     const response = await fetch(`async/connexion`, options);
     const result = await response.json();
+    console.log("here result from fetch");
+    console.dir(result);
     if (result.status == "success") {
         success.call(this, result.data);
     } else {
         failed.call(this, result.message);
     }
 }
-async function associatePanneEvent(eventID,panneID,success,failed){
-    fetch("async/event_associate?event="+eventID+"&panne="+panneID)
-.then(r=>{return r.json()})
-.then(result=>{
-  if(result.status=="success"){
-    success?.call(this);
-  }else{
-    failed?.call(this,result.message);
-  }
-})
+async function associatePanneEvent(eventID, panneID, success, failed) {
+    fetch("async/event_associate?event=" + eventID + "&panne=" + panneID)
+        .then(r => { return r.json() })
+        .then(result => {
+            if (result.status == "success") {
+                success?.call(this);
+            } else {
+                failed?.call(this, result.message);
+            }
+        })
 }
-async function getPanneByEvent(eventID,success,failed){
-    fetch("async/event_getPannes?event="+eventID)
-.then(r=>{return r.json()})
-.then(result=>{
-  if(result.status=="success"){
-    success?.call(this,result.data);
-  }else{
-    failed?.call(this,result.message);
-  }
-})
+async function getPanneByEvent(eventID, success, failed) {
+    fetch("async/event_getPannes?event=" + eventID)
+        .then(r => { return r.json() })
+        .then(result => {
+            if (result.status == "success") {
+                success?.call(this, result.data);
+            } else {
+                failed?.call(this, result.message);
+            }
+        })
 }
 async function getActionsLicence(success, failed) {
     fetch("include/exception.json")

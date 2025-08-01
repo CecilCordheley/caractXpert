@@ -2,8 +2,8 @@
 namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
- class PanneCaracteristique{
-    private $attr=["panne_id"=>'',"caracteristique_id"=>''];
+ class Client{
+    private $attr=["client_id"=>'',"client_uuid"=>'',"client_name"=>'',"client_info"=>'',"date_client"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -21,21 +21,21 @@ use Exception;
          throw new Exception("Propriété non définie : $name");
      }
     }
-    public static function  add(SQLFactory $sqlF,PanneCaracteristique &$item,$callBack=null){
-     $return= $sqlF->addItem($item->getArray(),"panne_caracteristique");
+    public static function  add(SQLFactory $sqlF,Client &$item,$callBack=null){
+     $return= $sqlF->addItem($item->getArray(),"client");
     if (gettype($return) === "string" && strpos($return, "Error") !== -1) {
       echo "<pre>$return</pre>";
       return false;
     } else {
-      $item->panne_id=$sqlF->lastInsertId("panne_caracteristique");
+      $item->client_id=$sqlF->lastInsertId("client");
       if($callBack!=null){
         call_user_func($callBack,$item);
       }
       return true;
     }
     }
-    public static function  update(SQLFactory $sqlF,PanneCaracteristique $item,$callBack=null){
-      $return=$sqlF->updateItem($item->getArray(),"panne_caracteristique");
+    public static function  update(SQLFactory $sqlF,Client $item,$callBack=null){
+      $return=$sqlF->updateItem($item->getArray(),"client");
       if (gettype($return) === "string" && strpos($return, "Error") !== -1) {
         echo "<pre>$return</pre>";
         return false;
@@ -46,27 +46,33 @@ use Exception;
         return true;
       }
     }
-    public static function  del(SQLFactory $sqlF,PanneCaracteristique $item){
-      $sqlF->deleteItem($item->panne_id,"panne_caracteristique");
+    public static function  del(SQLFactory $sqlF,Client $item){
+      $sqlF->deleteItem($item->client_id,"client");
     }
     public static function getAll($sqlF){
-      $query=$sqlF->execQuery("SELECT * FROM panne_caracteristique");
+      $query=$sqlF->execQuery("SELECT * FROM client");
       $return=[];
       foreach($query as $element){
-      $entity=new PanneCaracteristique();
-         $entity->panne_id=$element["panne_id"];
-$entity->caracteristique_id=$element["caracteristique_id"];
+      $entity=new Client();
+         $entity->client_id=$element["client_id"];
+$entity->client_uuid=$element["client_uuid"];
+$entity->client_name=$element["client_name"];
+$entity->client_info=$element["client_info"];
+$entity->date_client=$element["date_client"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
     }
-    public static function getPanneCaracteristiqueBy($sqlF,$key,$value,$filter=null){
-      $query=$sqlF->prepareQuery("SELECT * FROM panne_caracteristique WHERE $key=:val",$key,$value);
+    public static function getClientBy($sqlF,$key,$value,$filter=null){
+      $query=$sqlF->prepareQuery("SELECT * FROM client WHERE $key=:val",$key,$value);
       $return=[];
       foreach($query as $element){
-      $entity=new PanneCaracteristique();
-         $entity->panne_id=$element["panne_id"];
-$entity->caracteristique_id=$element["caracteristique_id"];
+      $entity=new Client();
+         $entity->client_id=$element["client_id"];
+$entity->client_uuid=$element["client_uuid"];
+$entity->client_name=$element["client_name"];
+$entity->client_info=$element["client_info"];
+$entity->date_client=$element["date_client"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

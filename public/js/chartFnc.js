@@ -1,106 +1,66 @@
 HTMLCanvasElement.prototype.clearCanvas=function(){
     this.clearRect(0,0,this.width,this.height);
 }
-async function getTicketByServiceWithStat(containerID){
-  fetch('async/StatFnc_getTicketByServiceWithSat')
-  .then(res => res.json())
-  .then(response => {
-    const rawData = response.data;
-
-    const labels = [...new Set(rawData.map(d => d.label))];
-    const etats = [...new Set(rawData.map(d => d.etat))];
-
-    const getColorForEtat = etat => {
-      const colors = {
-        default: "#dfe6e9",
-        valider: "#55efc4",
-        echouer: "#d63031",
-        assigner: "#74b9ff",
-        traiter: "#F00"
-      };
-      return colors[etat] || "#636e72";
-    };
-
-    const datasets = etats.map(etat => ({
-      label: etat,
-      data: labels.map(label => {
-        const match = rawData.find(d => d.label === label && d.etat === etat);
-        return match ? match.total : 0;
-      }),
-      backgroundColor: getColorForEtat(etat),
-      stack: "stack1"
-    }));
-    container=document.getElementById(containerID)
-    container.innerHTML="";
-const canvas = document.createElement("canvas");
-    container.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels,
-        datasets
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: "Tickets par service et par état"
-          }
-        },
-        scales: {
-          x: { stacked: true },
-          y: { stacked: true }
-        }
-      }
-    });
+function destroyChartInstance(ctx) {
+  Object.values(Chart.instances).forEach(instance => {
+    if (instance.ctx === ctx) {
+      instance.destroy();
+    }
   });
-
 }
-async function renderTicketChart({ url, containerId, title = "Tickets", chartType = "bar" }) {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
 
-    const labels = data.data.map(d => d.label);
-    const values = data.data.map(d => d.total);
+async function countByPanne(){
+  getStat("countByPanne", (data) => {
+     let panneChartInstance = null;
+      let canvas=document.getElementById("panneChart");
+      canvas.innerHTML="";
+      const ctx = canvas.getContext('2d');
+ const labels = [];
+      const counts = [];
 
-    const container = document.getElementById(containerId);
-    if (!container) throw new Error("Container not found: " + containerId);
-
-    container.innerHTML = "";
-    const canvas = document.createElement("canvas");
-    container.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-
-    new Chart(ctx, {
-      type: chartType,
-      data: {
-        labels,
-        datasets: [{
-          label: 'Nombre de tickets',
-          data: values,
-          backgroundColor: '#4e79a7',
-          borderRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: title
-          },
-          legend: { display: false }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
+      Object.keys(data).forEach(key => {
+        const entry = data[key];
+        labels.push(entry.panne.code);      // ou .diagnostique si tu veux plus de détails
+        counts.push(entry.nb);
+      });
+      if (panneChartInstance) {
+        panneChartInstance.destroy();
       }
-    });
-
-  } catch (err) {
-    console.error("Erreur lors du rendu du graphique :", err);
-  }
+      destroyChartInstance(ctx);
+     panneChartInstance= new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Nombre de pannes',
+            data: counts,
+            backgroundColor: [
+              '#ff6384',
+              '#36a2eb',
+              '#ffce56'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Répartition des pannes détectées' }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Nombre'
+              }
+            }
+          }
+        }
+      })
+      console.dir(data);
+    }, (err) => {
+      console.dir(err);
+    })
 }

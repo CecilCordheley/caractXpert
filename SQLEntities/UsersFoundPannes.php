@@ -27,7 +27,7 @@ use Exception;
       echo "<pre>$return</pre>";
       return false;
     } else {
-     // $item->user=$sqlF->lastInsertId("users_found_pannes");
+      $item->user=$sqlF->lastInsertId("users_found_pannes");
       if($callBack!=null){
         call_user_func($callBack,$item);
       }

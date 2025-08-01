@@ -27,8 +27,25 @@ margin:3px;
     grid-template-rows: 20% 70% 10%;
     gap: 10px;
 }
-#mainActivty{
+header{
+    display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: space-around;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+header img{
+    width: 150px;
+}
+#MainActivity{
 transition:.7s;
+overflow: auto;
+max-height: 400px;
+background: #66E;
+}
+[g_area]{
+    position: relative;
 }
 [g_area=menu] {
     background: #33E;

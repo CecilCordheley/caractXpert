@@ -3,7 +3,7 @@ namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
  class Pannes{
-    private $attr=["id"=>'',"code"=>'',"diagnostique"=>''];
+    private $attr=["id"=>'',"code"=>'',"diagnostique"=>'',"categorie"=>'',"client_id"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -57,6 +57,8 @@ use Exception;
          $entity->id=$element["id"];
 $entity->code=$element["code"];
 $entity->diagnostique=$element["diagnostique"];
+$entity->categorie=$element["categorie"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
@@ -69,6 +71,8 @@ $entity->diagnostique=$element["diagnostique"];
          $entity->id=$element["id"];
 $entity->code=$element["code"];
 $entity->diagnostique=$element["diagnostique"];
+$entity->categorie=$element["categorie"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

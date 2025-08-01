@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Système Expert</title>
+  <title>CaracXpert</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/png">
   <!--CDN IMPORT-->
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -20,6 +21,7 @@
   <!--Internal Libs-->
   <script src="public/js/main.js"></script>
   <script src="public/js/alert.js"></script>
+  <script src="public/js/chartFnc.js"></script>
   <link rel="stylesheet" href="public/css/main.css">
   <link rel="stylesheet" href="public/css/alert.css">
 </head>
@@ -28,9 +30,12 @@
 
   <div class="container-fluid" id="wrapper">
     <header g_area="header" role="banner">
-      <h2>{app:name} {:IF {var:_isConnect}=1}
-        Bienvenue<span> {var:user.NomAgent} {var:user.PrenomAgent}</span>
-        {:/IF}</h2>
+      <img src="Logo2.png" alt="CaracXpert">
+      <h2>{app:name}
+        {:IF {var:_isConnect}=1}
+        <span>{var:client.client_name}</span>
+        {:/IF}
+      </h2>
     </header>
     <div class="list-group" g_area="menu">
       {:IF {var:_isConnect}=1}

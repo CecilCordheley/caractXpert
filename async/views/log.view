@@ -1,0 +1,31 @@
+<div class="row">
+    <h3>Log de connexion</h3>
+    <div class="col-4">
+        <button name="display_log" class="btn btn-primary">Afficher</button>
+        <button name="export_log" class="btn btn-primary">Exporter</button>
+        <button name="clear_log" class="btn btn-primary">Effacer</button>
+    </div>
+    <div class="col-8">
+        <div id="logContent" class="list-group">
+            Ici le contenu du log
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector("[name=display_log]")?.addEventListener("click",function(){
+        getLog((log)=>{
+            let logContent=document.getElementById("logContent");
+            logContent.innerHTML="";
+            log.forEach(element => {
+                let connexion_el=document.createElement("div");
+                connexion_el.classList.add("list-group-item");
+                connexion_el.classList.add("d-flex");
+                connexion_el.classList.add("justify-content-around");
+                connexion_el.innerHTML=`<span>${element.date}</span><span>${element.message}</span>`;
+                logContent.appendChild(connexion_el);
+            });
+        },(err)=>{
+            console.error(err);
+        })
+    })
+</script>

@@ -2,8 +2,8 @@
 namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
- class PanneCaracteristique{
-    private $attr=["panne_id"=>'',"caracteristique_id"=>''];
+ class Categorie{
+    private $attr=["idcategorie"=>'',"LibCategorie"=>'',"client_id"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -21,21 +21,21 @@ use Exception;
          throw new Exception("Propriété non définie : $name");
      }
     }
-    public static function  add(SQLFactory $sqlF,PanneCaracteristique &$item,$callBack=null){
-     $return= $sqlF->addItem($item->getArray(),"panne_caracteristique");
+    public static function  add(SQLFactory $sqlF,Categorie &$item,$callBack=null){
+     $return= $sqlF->addItem($item->getArray(),"categorie");
     if (gettype($return) === "string" && strpos($return, "Error") !== -1) {
       echo "<pre>$return</pre>";
       return false;
     } else {
-      $item->panne_id=$sqlF->lastInsertId("panne_caracteristique");
+      $item->idcategorie=$sqlF->lastInsertId("categorie");
       if($callBack!=null){
         call_user_func($callBack,$item);
       }
       return true;
     }
     }
-    public static function  update(SQLFactory $sqlF,PanneCaracteristique $item,$callBack=null){
-      $return=$sqlF->updateItem($item->getArray(),"panne_caracteristique");
+    public static function  update(SQLFactory $sqlF,Categorie $item,$callBack=null){
+      $return=$sqlF->updateItem($item->getArray(),"categorie");
       if (gettype($return) === "string" && strpos($return, "Error") !== -1) {
         echo "<pre>$return</pre>";
         return false;
@@ -46,27 +46,29 @@ use Exception;
         return true;
       }
     }
-    public static function  del(SQLFactory $sqlF,PanneCaracteristique $item){
-      $sqlF->deleteItem($item->panne_id,"panne_caracteristique");
+    public static function  del(SQLFactory $sqlF,Categorie $item){
+      $sqlF->deleteItem($item->idcategorie,"categorie");
     }
     public static function getAll($sqlF){
-      $query=$sqlF->execQuery("SELECT * FROM panne_caracteristique");
+      $query=$sqlF->execQuery("SELECT * FROM categorie");
       $return=[];
       foreach($query as $element){
-      $entity=new PanneCaracteristique();
-         $entity->panne_id=$element["panne_id"];
-$entity->caracteristique_id=$element["caracteristique_id"];
+      $entity=new Categorie();
+         $entity->idcategorie=$element["idcategorie"];
+$entity->LibCategorie=$element["LibCategorie"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
     }
-    public static function getPanneCaracteristiqueBy($sqlF,$key,$value,$filter=null){
-      $query=$sqlF->prepareQuery("SELECT * FROM panne_caracteristique WHERE $key=:val",$key,$value);
+    public static function getCategorieBy($sqlF,$key,$value,$filter=null){
+      $query=$sqlF->prepareQuery("SELECT * FROM categorie WHERE $key=:val",$key,$value);
       $return=[];
       foreach($query as $element){
-      $entity=new PanneCaracteristique();
-         $entity->panne_id=$element["panne_id"];
-$entity->caracteristique_id=$element["caracteristique_id"];
+      $entity=new Categorie();
+         $entity->idcategorie=$element["idcategorie"];
+$entity->LibCategorie=$element["LibCategorie"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

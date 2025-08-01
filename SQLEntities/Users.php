@@ -3,7 +3,7 @@ namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
  class Users{
-    private $attr=["idusers"=>'',"uuidUser"=>'',"nomUser"=>'',"prenomUser"=>'',"mailUser"=>'',"password_hash"=>'',"created_at"=>'',"roleUser"=>'',"manager_id"=>''];
+    private $attr=["idusers"=>'',"uuidUser"=>'',"nomUser"=>'',"prenomUser"=>'',"mailUser"=>'',"password_hash"=>'',"created_at"=>'',"roleUser"=>'',"manager_id"=>'',"client"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -63,6 +63,7 @@ $entity->password_hash=$element["password_hash"];
 $entity->created_at=$element["created_at"];
 $entity->roleUser=$element["roleUser"];
 $entity->manager_id=$element["manager_id"];
+$entity->client=$element["client"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
@@ -81,6 +82,7 @@ $entity->password_hash=$element["password_hash"];
 $entity->created_at=$element["created_at"];
 $entity->roleUser=$element["roleUser"];
 $entity->manager_id=$element["manager_id"];
+$entity->client=$element["client"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

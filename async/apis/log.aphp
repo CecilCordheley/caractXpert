@@ -1,0 +1,6 @@
+import MiscFunction;
+use vendor\easyFrameWork\Core\Master\HistoryLog;
+request getAll{
+    $log=new HistoryLog("./../include/connexion.log");
+    success($log->getLog());
+}

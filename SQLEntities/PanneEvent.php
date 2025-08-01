@@ -3,7 +3,7 @@ namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
  class PanneEvent{
-    private $attr=["idEvent"=>'',"event_name"=>'',"event_callBack"=>'',"refEvent"=>''];
+    private $attr=["idEvent"=>'',"event_name"=>'',"event_callBack"=>'',"refEvent"=>'',"client_id"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -58,6 +58,7 @@ use Exception;
 $entity->event_name=$element["event_name"];
 $entity->event_callBack=$element["event_callBack"];
 $entity->refEvent=$element["refEvent"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
@@ -71,6 +72,7 @@ $entity->refEvent=$element["refEvent"];
 $entity->event_name=$element["event_name"];
 $entity->event_callBack=$element["event_callBack"];
 $entity->refEvent=$element["refEvent"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

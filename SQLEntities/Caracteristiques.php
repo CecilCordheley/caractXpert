@@ -3,7 +3,7 @@ namespace SQLEntities;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 use Exception;
  class Caracteristiques{
-    private $attr=["id"=>'',"label"=>''];
+    private $attr=["id"=>'',"label"=>'',"client_id"=>''];
     public function __set($name,$value){
       if (array_key_exists($name, $this->attr)) {
          $this->attr[$name]=$value;
@@ -56,6 +56,7 @@ use Exception;
       $entity=new Caracteristiques();
          $entity->id=$element["id"];
 $entity->label=$element["label"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
      return (count($return)>1)?$return:$return[0];
@@ -67,6 +68,7 @@ $entity->label=$element["label"];
       $entity=new Caracteristiques();
          $entity->id=$element["id"];
 $entity->label=$element["label"];
+$entity->client_id=$element["client_id"];
       $return[]=$entity;
       }
       if($filter!=null && count($return)>0){

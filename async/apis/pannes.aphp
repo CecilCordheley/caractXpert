@@ -4,12 +4,18 @@ request getAll{
     $result=MiscFunction::getPannes($ids);
     success($result);
 }
+request getAllCategorie{
+    success(MiscFunction::getCategorie());
+}
+request getPanneHistory{
+    $id=required_get("id");
+    $result=MiscFunction::getPanneHistory($id);
+    success($result);
+}
 request hasEvent{
     $id=required_get("id");
     $events=MiscFunction::getEvents($id);
     success($events);
-
-
 }
 request update{
     $id=required_get("id");

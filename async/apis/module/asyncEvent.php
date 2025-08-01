@@ -1,8 +1,10 @@
 <?php
  namespace apis\module\asyncModule;
 
+use SQLEntities\ClientEntity;
 use SQLEntities\PanneEventEntity;
 use SQLEntities\PannesEntity;
+use vendor\easyFrameWork\Core\Master\SessionManager;
 use vendor\easyFrameWork\Core\Master\SQLFactory;
 
 
@@ -44,8 +46,11 @@ use vendor\easyFrameWork\Core\Master\SQLFactory;
         return $panne->dissociateEvent($sqlF,$idevent);
     }
     public static function getAllEvent(){
-        $sqlf=self::getSQLFactory();
-        $event=PanneEventEntity::getAll($sqlf);
+          $sqlF=self::getSQLFactory();
+        $session_manager=new SessionManager;
+        $curentUser=$session_manager->get("user");
+        $client=ClientEntity::getClientBy($sqlF,"client_id",$curentUser->client);
+        $event=$client->getPanneEvents($sqlF);
         if($event==false){
              echo json_encode(["result"=>"error","message"=>"no events found"]);
             exit();

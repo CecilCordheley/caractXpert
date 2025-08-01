@@ -8,6 +8,9 @@ function initSys() {
   pannesRestantes = {}; // Celles qui restent après chaque réponse
   questionsPosees = [];
 }
+function getLogs(){
+  loadView("async/view_log");
+}
 window.addEventListener("load", function () {
   document.querySelectorAll("[g_area]").forEach(el => {
     el.style["grid-area"] = el.getAttribute("g_area");
@@ -20,6 +23,8 @@ window.addEventListener("load", function () {
       localStorage.setItem("user", JSON.stringify(data));
       window.location.href = "MainActivity";
     }, (err) => {
+      let res=document.querySelector(".mb-3.result");
+      res.innerHTML="<div class=\"alert alert-danger\" role=\"alert\">"+err+"</div>";
       console.error(err);
     })
   })
@@ -50,6 +55,10 @@ async function getMainActivity() {
   console.log(role);
   let token = JSON.parse(localStorage.getItem("user")).token;
   switch (role) {
+    case "agent":{
+      callMainActivity();
+      break;
+    }
     case "dev":{
       getConsole();
       break;
@@ -62,8 +71,36 @@ async function getMainActivity() {
       break;
   }
 }
+function declareOrDestroy(path, value = null, destroy = false) {
+  const keys = path.split(".");
+  let obj = window;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    obj[keys[i]] = obj[keys[i]] || {};
+    obj = obj[keys[i]];
+  }
+
+  const lastKey = keys[keys.length - 1];
+
+  if (destroy) {
+    delete obj[lastKey];
+  } else if (!(lastKey in obj)) {
+    obj[lastKey] = value;
+  }
+}
+
+
+function getUserHistory(){
+  loadView("async/view_panneHistory");
+}
+async function callMainActivity(){
+  loadView("async/view_mainActivity", async () => {
+// _alert("my view");
+  })
+}
 async function getPannesData() {
   loadView("async/view_pannes", async () => {
+    let token = JSON.parse(localStorage.getItem("user")).token;
     // On récupère les caractéristiques possibles
     let allCaracteristics = [];
     await getAllCaracteristics(
@@ -75,7 +112,12 @@ async function getPannesData() {
     );
 
     // On récupère les pannes
-    fetch("async/pannes_getAll?ids=1")
+    fetch("async/pannes_getAll?ids=1",{
+            method: "GET",
+            headers: {
+                "Authorization": 'Bearer : ' + token
+            }
+        })
       .then(r => r.json())
       .then(result => {
         if (result.status !== "success") {
@@ -212,7 +254,13 @@ function getFormData(formSelector) {
   return data;
 }
 async function getPannes() {
-  fetch("async/pannes_getAll?ids=0")
+  let token = JSON.parse(localStorage.getItem("user")).token;
+  fetch("async/pannes_getAll?ids=0",{
+            method: "GET",
+            headers: {
+                "Authorization": 'Bearer : ' + token
+            }
+        })
     .then(r => { return r.json() })
     .then(result => {
       if (result.status == "success") {

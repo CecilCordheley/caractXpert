@@ -10,5 +10,8 @@
         </div>
         <button class="btn btn-primary" id="connexionTrigger">Connexion</button>
         <a href="./firstConnexion" class="btn btn-primary" >Première connexion</a>
+        <div class="mb-3 result">
+
+        </div>
     </div>
 </div>

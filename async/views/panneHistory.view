@@ -1,0 +1,109 @@
+<h3>Mon historique</h3>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <label for="filterType">Type de panne</label>
+            <select id="filterType" class="form-control">
+                <option value="">Tous</option>
+                <!-- <option value="reseau">Réseau</option>
+                <option value="materiel">Matériel</option>
+                <option value="logiciel">Logiciel</option>-->
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="filterDate">Depuis</label>
+            <input type="date" id="filterDate" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label for="sortBy">Trier par</label>
+            <select id="sortBy" class="form-control">
+                <option value="recent">Plus récent</option>
+                <option value="ancien">Plus ancien</option>
+                <option value="gravite">Gravité</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-primary w-100" onclick="applyFilters()">Appliquer</button>
+        </div>
+        <div class="col-md-12" id="nbResult">
+            Result : 
+        </div>
+    </div>
+
+    <table class="table" id="panneHistory">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Commentaire</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script>
+    window.CaracXpert = window.CaracXpert || {};
+    declareOrDestroy("CaracXpert.allPannes", [], false);
+    getCategory((data) => {
+        let typeSelect = document.getElementById("filterType");
+        data.forEach(el => {
+            let opt = document.createElement("option");
+            opt.value = el.idcategorie;
+            opt.innerHTML = el.LibCategorie;
+            typeSelect.appendChild(opt);
+        })
+    }, (err) => {
+        console.error(err);
+    })
+    function applyFilters() {
+        const type = document.getElementById('filterType').value;
+        const dateMin = document.getElementById('filterDate').value;
+        const sortBy = document.getElementById('sortBy').value;
+        let filtered = allPannes;
+        //  console.dir(filtered);
+        if (type) {
+            filtered = filtered.filter(p =>  p.panne.categorie.idcategorie == type);
+        }
+
+        if (dateMin) {
+            filtered = filtered.filter(p => new Date(p.date) >= new Date(dateMin));
+        }
+
+        switch (sortBy) {
+            case 'recent':
+                filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+                break;
+            case 'ancien':
+                filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                break;
+            case 'gravite':
+                filtered.sort((a, b) => b.gravite - a.gravite); // suppose gravité numérique
+                break;
+        }
+
+        renderTable(filtered); // à créer ou réutiliser
+    }
+    function renderTable(data) {
+        let historyTable = document.querySelector("#panneHistory tbody");
+        historyTable.innerHTML = "";
+        let nb=document.getElementById("nbResult");
+        nb.innerHTML="result : "+data.length;
+        data.forEach(element => {
+            const line = createTableRow([
+                element.panne.code,
+                element.date,
+                element.comment
+            ]);
+            historyTable.appendChild(line);
+        })
+    }
+
+    fetch("async/pannes_getPanneHistory&id=" + JSON.parse(localStorage.getItem("user")).user_id)
+        .then(r => { return r.json() })
+        .then(result => {
+            if (result.status == "success") {
+                allPannes = result.data;
+                renderTable(result.data)
+            };
+        })
+</script>

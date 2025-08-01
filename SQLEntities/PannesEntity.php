@@ -14,7 +14,22 @@ use vendor\easyFrameWork\Core\Master\EasyFrameWork;
 */
 class PannesEntity extends Pannes
 {
+  public static function getNbPannes($sqlF,$client_id){
+    $panne=UsersFoundPannesEntity::getAll($sqlF);
+    return array_reduce($panne,function($car,$el)use($sqlF,$client_id){
+      if(isset($car[$el->panne])){
+        $car[$el->panne]["nb"]++;
+      }else{
+        $p=PannesEntity::getPannesBy($sqlF,"id",$el->panne,function($el)use($client_id){return $el->client_id==$client_id;});
+        $car[$el->panne]=["panne"=>$p->getArray()??false,"nb"=>1];
+      }
+      return $car;
+    },[]);
+  }
    // Ajoutez vos méthodes ici
+       public function getCategorie($sqlF){
+      return CategorieEntity::getCategorieBy($sqlF,"idcategorie",$this->categorie);
+    }
 public function dissociateEvent($sqlF,$idEvent){
     $panne=PanneHasEventEntity::getPanneHasEventBy($sqlF,"pannes_id",$this->id,function($el)use($idEvent){
       return $el->idEvent==$idEvent;
@@ -39,6 +54,11 @@ public function dissociateEvent($sqlF,$idEvent){
       return $car;
     },[]);
     return $events;
+   }
+   public function getFullArray($sqlF){
+    $a=$this->getArray();
+    $a["categorie"]=$this->getCategorie($sqlF)->getArray();
+    return $a;
    }
    public static function getAll($sqlF){
     $arr=Pannes::getAll($sqlF);
